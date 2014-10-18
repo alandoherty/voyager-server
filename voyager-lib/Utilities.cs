@@ -36,6 +36,11 @@ namespace voyagerlib
 			{ HttpStatusCode.Found, "Found" },
 			{ HttpStatusCode.TemporaryRedirect, "Temporary Redirect" },
 			{ HttpStatusCode.PermanentRedirect, "Permanent Redirect" },
+			{ HttpStatusCode.BadRequest, "Bad Request" },
+			{ HttpStatusCode.Unauthorized, "Unauthorized" },
+			{ HttpStatusCode.PaymentRequired, "Payment Required" },
+			{ HttpStatusCode.Forbidden, "Forbidden" },
+			{ HttpStatusCode.NotFound, "Not Found" }
 		};
 		#endregion
 

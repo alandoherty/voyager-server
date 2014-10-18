@@ -12,6 +12,10 @@ namespace voyagerlib.http
 		Found = 302,
 		TemporaryRedirect = 307,
 		PermanentRedirect = 308,
+		BadRequest = 400,
+		Unauthorized = 401,
+		PaymentRequired = 402,
+		Forbidden = 403,
 		NotFound = 404
 	}
 }
