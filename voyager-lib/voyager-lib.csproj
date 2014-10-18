@@ -38,9 +38,16 @@
     <Compile Include="Route.cs" />
     <Compile Include="Http\HttpRequestLine.cs" />
     <Compile Include="Http\HttpMethod.cs" />
+    <Compile Include="Http\HttpHeader.cs" />
+    <Compile Include="Http\HttpStatusCode.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="Events\RequestedEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Http\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace voyagerlib.http
 {
@@ -6,8 +7,10 @@ namespace voyagerlib.http
 	{
 		#region Fields
 		private HttpMethod _method;
-		private string _version;
-		private string _path;
+		private string _version = "";
+		private string _path = "";
+		private string _query = "";
+		private Dictionary<string,string> _params = null;
 		#endregion
 
 		#region Properties
@@ -31,7 +34,7 @@ namespace voyagerlib.http
 			get {
 				return _version;
 			} set {
-				_method = value;
+				_version = value;
 			}
 		}
 
@@ -42,6 +45,28 @@ namespace voyagerlib.http
 		public string Path {
 			get {
 				return _path;
+			} set {
+				_path = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets the query.
+		/// </summary>
+		/// <value>The query.</value>
+		public string Query {
+			get {
+				return _query;
+			}
+		}
+
+		/// <summary>
+		/// Gets the parameters.
+		/// </summary>
+		/// <value>The parameters.</value>
+		public Dictionary<string,string> Parameters {
+			get {
+				return _params; 
 			}
 		}
 		#endregion
@@ -55,9 +80,22 @@ namespace voyagerlib.http
 		/// <param name="version">Version.</param>
 		public HttpRequestLine (HttpMethod method, string path, string version)
 		{
+			// main stuff
 			_method = method;
 			_path = path;
 			_version = version;
+
+			// parameter parse
+			_params = Utilities.ParseParameters (path);
+
+			// remove query string
+			if (_params.Count > 0) {
+				// find query begin
+				int queryBegin = _path.IndexOf ('?');
+
+				_query = _path.Substring (queryBegin);
+				_path = _path.Substring (0, queryBegin);
+			}
 		}
 		#endregion
 	}

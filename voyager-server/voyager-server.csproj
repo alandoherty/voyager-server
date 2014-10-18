@@ -35,6 +35,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Voyager.cs" />
+    <Compile Include="Routes\v1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -42,5 +43,8 @@
       <Project>{D4582169-3EFA-4E9F-9E39-7E32B7B4FCA6}</Project>
       <Name>voyager-lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Routes\" />
   </ItemGroup>
 </Project>

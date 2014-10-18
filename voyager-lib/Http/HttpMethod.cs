@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace voyagerlib
+namespace voyagerlib.http
 {
 	public enum HttpMethod 
 	{

@@ -3,6 +3,8 @@ using System.Net;
 using System.Threading;
 using System.Net.Sockets;
 using System.IO;
+using System.Collections.Generic;
+using System.Text;
 
 namespace voyagerlib.http
 {
@@ -26,9 +28,32 @@ namespace voyagerlib.http
 				return _port;
 			}
 		}
+
+		/// <summary>
+		/// Gets the count of connected clients.
+		/// </summary>
+		/// <value>The client count.</value>
+		public int ClientCount {
+			get {
+				return _clientCount;
+			}
+		}
+		#endregion
+
+		#region Events
+		public event RequestedEventHandler Requested;
 		#endregion
 
 		#region Methods
+		/// <summary>
+		/// Raises the requested event.
+		/// </summary>
+		/// <param name="e">Event Arguments.</param>
+		protected virtual void OnRequested(RequestEventArgs e) {
+			if (Requested != null) 
+				Requested(this, e);
+		}
+
 		/// <summary>
 		/// Run the server.
 		/// </summary>
@@ -70,6 +95,8 @@ namespace voyagerlib.http
 			}
 		}
 
+
+
 		/// <summary>
 		/// Handle a client.
 		/// </summary>
@@ -80,9 +107,27 @@ namespace voyagerlib.http
 
 			// stream reader
 			using (StreamReader reader = new StreamReader (client.GetStream ())) {
-				HttpRequest request = reader.ReadHttpRequest ();
+				// request line
+				HttpRequestLine requestLine = reader.ReadHttpRequestLine ();
 
+				// headers
+				Dictionary<string, HttpHeader> headers = reader.ReadHttpHeaders ();
+			
+				// request
+				Request req = new Request (requestLine, headers);
+
+				// response
+				Response res = new Response (client.GetStream());
+
+				// call requested
+				OnRequested (new RequestEventArgs (req, res));
 			}
+
+			// close connection (bye)
+			client.Close ();
+
+			// decrement count
+			_clientCount--;
 		}
 
 		/// <summary>
@@ -93,9 +138,13 @@ namespace voyagerlib.http
 			_listener.Start ();
 
 			// start thread
+
 			_thread.Start ();
 		}
 
+		/// <summary>
+		/// Stop this instance.
+		/// </summary>
 		public void Stop() {
 			// abort thread
 			_thread.Abort ();

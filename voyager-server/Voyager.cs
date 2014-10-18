@@ -1,14 +1,16 @@
 ﻿using System;
-using voyagerlib.http;
+using voyagerlib;
+using System.Reflection;
 
 namespace voyagerserver
 {
 	public static class Voyager
 	{
+
 		#region Methods
 		public static void Main (string[] args)
 		{
-			HttpServer server = new HttpServer (8080);
+			Server server = new Server (Assembly.GetExecutingAssembly(), 8080);
 			server.Start ();
 		}
 		#endregion
