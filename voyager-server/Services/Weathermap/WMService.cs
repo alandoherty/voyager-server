@@ -12,7 +12,7 @@ namespace voyagerserver
 	public static class WMService
 	{
 		#region Constants 
-		public const string API = "api.openweathermap.org/data/2.5/weather/";
+		public const string API = "http://api.openweathermap.org/data/2.5/";
 		#endregion
 
 		#region Methods
@@ -29,7 +29,7 @@ namespace voyagerserver
 			string str = null;
 
 			// build query
-			string uri = API + "?lat=" + latitude + "&lon=" + longitude;
+			string uri = API + "forecast/daily/?mode=json&cnt=10&units=metric&lat=" + latitude + "&lon=" + longitude;
 
 			// download data
 			try {

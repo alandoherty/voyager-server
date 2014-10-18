@@ -7,6 +7,15 @@ namespace voyagerserver
 	{
 		[DataMember]
 		public long id;
+
+		[DataMember]
+		public string name;
+
+		[DataMember]
+		public string country;
+
+		[DataMember]
+		public long population;
 	}
 }
 
