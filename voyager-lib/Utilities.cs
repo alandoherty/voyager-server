@@ -5,17 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.IO;
+using System.Web;
 
 namespace voyagerlib
 {
 	public static class Utilities
 	{
+		#region Constants
+		public const string HttpVersion = "HTTP/1.1";
+		#endregion
+
 		#region Fields
 		/// <summary>
 		/// The headers required in every request.
 		/// </summary>
-		private static string[] RequiredHeaders = new string[] {
+		public static string[] RequiredHeaders = new string[] {
 			"Host"
+		};
+
+		/// <summary>
+		/// The names assigned to each status code
+		/// </summary>
+		public static Dictionary<HttpStatusCode,string> StatusCodeNames = new Dictionary<HttpStatusCode, string>()
+		{
+			{ HttpStatusCode.Continue, "Continue" },
+			{ HttpStatusCode.OK, "OK" },
+			{ HttpStatusCode.Created, "Created" },
+			{ HttpStatusCode.Accepted, "Accepted" },
+			{ HttpStatusCode.MovedPermanently, "Moved Permanently" },
+			{ HttpStatusCode.Found, "Found" },
+			{ HttpStatusCode.TemporaryRedirect, "Temporary Redirect" },
+			{ HttpStatusCode.PermanentRedirect, "Permanent Redirect" },
 		};
 		#endregion
 
@@ -29,11 +49,28 @@ namespace voyagerlib
 		}
 
 		/// <summary>
+		/// Show a information message in console.
+		/// </summary>
+		/// <param name="msg">Message.</param>
+		public static void Info(string msg) {
+			MessageColor (ConsoleColor.Blue, "[INFO] " + msg + Environment.NewLine);
+		}
+
+		/// <summary>
+		/// Show a request message in console.
+		/// </summary>
+		/// <param name="method">Method.</param>
+		/// <param name="path">Path.</param>
+		public static void Log(HttpMethod method, string path) {
+			MessageColor (ConsoleColor.Gray, "[REQUEST] " + method.ToString () + " " + path + Environment.NewLine);
+		}
+
+		/// <summary>
 		/// Show a warning message in console.
 		/// </summary>
 		/// <param name="msg">Message.</param>
 		public static void Warning(string msg) {
-			MessageColor (ConsoleColor.Yellow, "[WARN] " + msg + Environment.NewLine);
+			MessageColor (ConsoleColor.Yellow, "[WARN] " + msg + Environment.NewLine + Environment.NewLine);
 		}
 
 		/// <summary>
@@ -119,7 +156,7 @@ namespace voyagerlib
 					// move to value
 					if (c == '&') {
 						// add
-						parameters.Add (key, value);
+						parameters.Add (key, HttpUtility.UrlDecode(value));
 
 						// reset
 						key = ""; value = "";
@@ -134,7 +171,7 @@ namespace voyagerlib
 
 			// add last key/value
 			if (queryStr.Length > 0)
-				parameters.Add (key, value);
+				parameters.Add (key, HttpUtility.UrlDecode(value));
 
 			// params
 			return parameters;
@@ -203,11 +240,13 @@ namespace voyagerlib
 		/// <summary>
 		/// Build headers to a string.
 		/// </summary>
-		/// <returns>The headers.</returns>
+		/// <returns>The headers as a byte array of ASCII.</returns>
 		/// <param name="headers">Headers.</param>
-		public static string BuildHeaders (Dictionary<string, HttpHeader> headers)
+		public static byte[] BuildHeaders (Dictionary<string, HttpHeader> headers)
 		{
+			// builder
 			StringBuilder builder = new StringBuilder ();
+
 			// add each header
 			foreach (KeyValuePair<string,HttpHeader> header in headers) {
 				builder.AppendLine (header.Key + ": " + header.Value.Value);
@@ -216,7 +255,13 @@ namespace voyagerlib
 			// add final line
 			builder.AppendLine ();
 
-			return builder.ToString ();
+			return Encoding.ASCII.GetBytes (builder.ToString ());
+		}
+
+	
+		public static byte[] BuildStatusLine(HttpStatusCode status) {
+
+			return Encoding.ASCII.GetBytes (HttpVersion + " 200 OK\n");
 		}
 		#endregion
 	}

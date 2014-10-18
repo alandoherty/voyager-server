@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.IO;
 using System.Text;
 using System.Collections.Generic;
@@ -9,12 +10,12 @@ namespace voyagerlib
 	public class Response
 	{
 		#region Fields
-		private Stream _stream;
+		private Stream _stream = null;
 
-		private Dictionary<string, HttpHeader> _headers;
+		private Dictionary<string, HttpHeader> _headers = new Dictionary<string, HttpHeader>();
 
 		private HttpStatusCode _statusCode;
-		private MemoryStream _bodyStream;
+		private MemoryStream _bodyStream = null;
 		#endregion
 
 		#region Properties
@@ -78,7 +79,17 @@ namespace voyagerlib
 		/// Send the data built up in the body.
 		/// </summary>
 		public void Send() {
+			// build
+			byte[] statusLine = Utilities.BuildStatusLine ();
 
+			// build headers
+			byte[] headers = Utilities.BuildHeaders (_headers);
+
+			_stream.Write (statusLine, 0, statusLine.Length);
+			_stream.Write (headers, 0, headers.Length);
+
+			byte[] hello = Encoding.UTF8.GetBytes ("[\n{\n\"name\" : \"The Fadathon\",\n\"description\" : \"We sell fad things here\",\n\"image\" : \"http://jamiehoyle.com/img.png\",\n\"rating\" : 5\n},\n{\n\"name\" : \"The Conferencethon\",\n\"description\" : \"We do conferences\",\n\"image\" : \"http://jamiehoyle.com/img2.png\",\n\"rating\" : 4\n},\n{\n\"name\" : \"The Jamieathon\",\n\"description\" : \"We do anjuli\",\n\"image\" : \"http://jamiehoyle.com/img3.png\",\n\"rating\" : 1\n}\n]");
+			_stream.Write (hello, 0, hello.Length);
 		}
 
 		/// <summary>

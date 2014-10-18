@@ -2,6 +2,7 @@
 using voyagerlib.http;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace voyagerlib
 {
@@ -83,11 +84,18 @@ namespace voyagerlib
 
 			// event handling
 			_http.Requested += new RequestedEventHandler (OnRequested);
+
+			// announce start
+			Utilities.Info ("Server listening on port " + port);
 		}
 		#endregion
 
 		#region Event Handlers
 		private void OnRequested(object sender, RequestEventArgs e) {
+			// log
+			Utilities.Log (e.Request.Method, e.Request.Path);
+
+			// do route stuff
 			foreach (Route route in _routes) {
 				if (route.Path == e.Request.Path) {
 					route.Function.Invoke (null, new object[]{ e.Request, e.Response });
