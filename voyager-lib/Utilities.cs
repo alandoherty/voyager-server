@@ -47,7 +47,7 @@ namespace voyagerlib
 		/// </summary>
 		public static Dictionary<HttpContentType,string> ContentTypeNames = new Dictionary<HttpContentType, string> () {
 			{ HttpContentType.CSS, "text/css" },
-			{ HttpContentType.JSON, "application/json" },
+			{ HttpContentType.Json, "application/json" },
 			{ HttpContentType.Javascript, "text/javascript" },
 			{ HttpContentType.HTML, "text/html" }
 		};
@@ -252,6 +252,24 @@ namespace voyagerlib
 		}
 
 		/// <summary>
+		/// Decode's the URL.
+		/// </summary>
+		/// <returns>The decode.</returns>
+		/// <param name="url">URL.</param>
+		public static string UrlDecode(string url) {
+			return HttpUtility.UrlDecode (url);
+		}
+
+		/// <summary>
+		/// Encode's the URL.
+		/// </summary>
+		/// <returns>The encode.</returns>
+		/// <param name="url">URL.</param>
+		public static string UrlEncode(string url) {
+			return HttpUtility.UrlEncode (url);
+		}
+
+		/// <summary>
 		/// Build headers to a string.
 		/// </summary>
 		/// <returns>The headers as a byte array of ASCII.</returns>
@@ -272,7 +290,11 @@ namespace voyagerlib
 			return Encoding.ASCII.GetBytes (builder.ToString ());
 		}
 
-	
+		/// <summary>
+		/// Builds the status line.
+		/// </summary>
+		/// <returns>The status line.</returns>
+		/// <param name="status">Status.</param>
 		public static byte[] BuildStatusLine(HttpStatusCode status) {
 
 			return Encoding.ASCII.GetBytes (HttpVersion + " 200 OK\n");

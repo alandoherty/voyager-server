@@ -31,11 +31,37 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Voyager.cs" />
     <Compile Include="Routes\v1.cs" />
+    <Compile Include="Data\HackathonData.cs" />
+    <Compile Include="Data\LocationData.cs" />
+    <Compile Include="Services\Eventbrite\EBService.cs" />
+    <Compile Include="Services\Eventbrite\EBSearchData.cs" />
+    <Compile Include="Services\Common\COPagination.cs" />
+    <Compile Include="Services\Common\COService.cs" />
+    <Compile Include="Services\Eventbrite\EBEvent.cs" />
+    <Compile Include="Services\Eventbrite\EBText.cs" />
+    <Compile Include="Services\Eventbrite\EBImage.cs" />
+    <Compile Include="Services\Eventbrite\EBDateTime.cs" />
+    <Compile Include="Services\Eventbrite\EBOrganizer.cs" />
+    <Compile Include="Services\Eventbrite\EBLocation.cs" />
+    <Compile Include="Services\Eventbrite\EBVenue.cs" />
+    <Compile Include="Services\Eventbrite\EBCategory.cs" />
+    <Compile Include="Services\Eventbrite\EBFormat.cs" />
+    <Compile Include="Services\Eventbrite\EBTicketClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -46,5 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Routes\" />
+    <Folder Include="Data\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Eventbrite\" />
+    <Folder Include="Services\Common\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

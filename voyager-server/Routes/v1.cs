@@ -24,8 +24,22 @@ namespace voyagerserver.routes
 			// parameters
 			string searchText = req.Parameters ["searchText"];
 
-			res.Write ("\"[\\n{\\n\\\"name\\\" : \\\"The Fadathon\\\",\\n\\\"description\\\" : \\\"We sell fad things here\\\",\\n\\\"image\\\" : \\\"http://jamiehoyle.com/img.png\\\",\\n\\\"rating\\\" : 5\\n},\\n{\\n\\\"name\\\" : \\\"The Conferencethon\\\",\\n\\\"description\\\" : \\\"We do conferences\\\",\\n\\\"image\\\" : \\\"http://jamiehoyle.com/img2.png\\\",\\n\\\"rating\\\" : 4\\n},\\n{\\n\\\"name\\\" : \\\"The Jamieathon\\\",\\n\\\"description\\\" : \\\"We do anjuli\\\",\\n\\\"image\\\" : \\\"http://jamiehoyle.com/img3.png\\\",\\n\\\"rating\\\" : 1\\n}\\n]\"");
-			
+			res.Write (new HackathonData[] {
+				new HackathonData() {
+					Name = "Jamie's Codeathon",
+					Organizer = "Jamie Hoyle",
+					Image = "http://jamiehoyle.com/img.png",
+					Date = DateTime.Now.ToString(),
+					/*Location = new LocationData() {
+						Longitude = 0.5f,
+						Latitude = 0.5f
+					}*/
+					Location = "Manchester, Central"
+				}
+			});
+
+			EBService.Search (searchText);
+
 			// send response
 			res.Send ();
 		}

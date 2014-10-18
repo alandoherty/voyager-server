@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Collections.Generic;
 using voyagerlib.http;
+using System.Runtime.Serialization.Json;
 
 namespace voyagerlib
 {
@@ -14,7 +15,6 @@ namespace voyagerlib
 
 		private Dictionary<string, HttpHeader> _headers = new Dictionary<string, HttpHeader>();
 
-		private HttpContentType _contentType = HttpContentType.HTML;
 		private HttpStatusCode _statusCode = HttpStatusCode.OK;
 		private MemoryStream _bodyStream = null;
 		#endregion
@@ -51,6 +51,23 @@ namespace voyagerlib
 		}
 
 		/// <summary>
+		/// Gets or sets the content type.
+		/// </summary>
+		/// <value>The content type.</value>
+		public HttpContentType ContentType {
+			get {
+				// reverse lookup content type
+				foreach (KeyValuePair<HttpContentType,string> kv in Utilities.ContentTypeNames) 
+					if (kv.Value == _headers ["Content-Type"].Value)
+						return kv.Key;
+
+				throw new KeyNotFoundException("The content type could not be resolved to an enumeration");
+			} set {
+				_headers["Content-Type"] = new HttpHeader("Content-Type", Utilities.ContentTypeNames [value]);
+			}
+		}
+
+		/// <summary>
 		/// Gets or sets the status code.
 		/// </summary>
 		/// <value>The status code.</value>
@@ -77,6 +94,46 @@ namespace voyagerlib
 		}
 
 		/// <summary>
+		/// Write a new line to the body.
+		/// </summary>
+		public void WriteLine() {
+			Write ("\n");
+		}
+
+		/// <summary>
+		/// Write some text to the body, followed by a line.
+		/// </summary>
+		/// <param name="text">Text.</param>
+		public void WriteLine(string text) {
+			Write (text + "\n");
+		}
+
+		/// <summary>
+		/// Write a boolean to the body.
+		/// </summary>
+		/// <param name="boolean">Boolean..</param>
+		public void Write(bool boolean) {
+			Write ((boolean == true) ? "false" : "true");
+		}
+
+		/// <summary>
+		/// Write an integer to the body.
+		/// </summary>
+		/// <param name="integer">Integer.</param>
+		public void Write(int integer) {
+			Write (integer.ToString ());
+		}
+
+		/// <summary>
+		/// Write an object by serializing as JSON.
+		/// </summary>
+		/// <param name="obj">Object.</param>
+		public void Write(object obj) {
+			DataContractJsonSerializer serializer = new DataContractJsonSerializer (obj.GetType ());
+			serializer.WriteObject (_bodyStream, obj);
+		}
+
+		/// <summary>
 		/// Send a generic reply to the client.
 		/// </summary>
 		/// <param name="data">Data.</param>
@@ -84,7 +141,6 @@ namespace voyagerlib
 		private void SendGeneric(byte[] data, Action headerManipulation) {
 			// modify headers
 			_headers ["Content-Length"] = new HttpHeader("Content-Length", data.Length.ToString());
-			_headers ["Content-Type"] = new HttpHeader ("Content-Type", Utilities.ContentTypeNames [_contentType]);
 
 			// custom headers
 			if (headerManipulation != null)
@@ -102,6 +158,8 @@ namespace voyagerlib
 
 			// write body
 			_stream.Write (data, 0, data.Length);
+
+			_stream.Flush ();
 		}
 
 		/// <summary>
@@ -125,8 +183,25 @@ namespace voyagerlib
 		/// <param name="code">Code.</param>
 		public void Send(HttpStatusCode code) {
 			SendGeneric (Encoding.UTF8.GetBytes (Utilities.ContentTypeNames [HttpContentType.HTML]), new Action(delegate() {
-				_headers["Content-Type"] = new HttpHeader("Content-Type", Utilities.ContentTypeNames [HttpContentType.HTML]);
+				ContentType = HttpContentType.HTML;
 			}));
+		}
+
+		/// <summary>
+		/// Send an object by serializing through JSON.
+		/// </summary>
+		/// <param name="obj">Object.</param>
+		public void Send(object obj) {
+			using (MemoryStream ms = new MemoryStream ()) {
+				// serialize
+				DataContractJsonSerializer serializer = new DataContractJsonSerializer (obj.GetType ());
+				serializer.WriteObject (ms, serializer);
+
+				// send
+				SendGeneric (ms.ToArray (), new Action(delegate() {
+					ContentType = HttpContentType.Json;
+				}));
+			}
 		}
 		#endregion
 
@@ -139,6 +214,9 @@ namespace voyagerlib
 		{
 			_bodyStream = new MemoryStream ();
 			_stream = stream;
+
+			// default headers
+			_headers["Content-Type"] = new HttpHeader("Content-Type", Utilities.ContentTypeNames [HttpContentType.HTML]);
 		}
 		#endregion
 	}
