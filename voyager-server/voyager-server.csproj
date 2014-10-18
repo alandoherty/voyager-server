@@ -65,6 +65,11 @@
     <Compile Include="Data\EventData.cs" />
     <Compile Include="Cache.cs" />
     <Compile Include="Services\Weathermap\WMService.cs" />
+    <Compile Include="Services\Weathermap\WMWeatherData.cs" />
+    <Compile Include="Services\Weathermap\WMCity.cs" />
+    <Compile Include="Services\Weathermap\WMReport.cs" />
+    <Compile Include="Services\Weathermap\WMTemperature.cs" />
+    <Compile Include="Services\Weathermap\WMClimate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

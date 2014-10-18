@@ -41,7 +41,6 @@ namespace voyagerserver
 				string uri = API + "events/search/?popular=true&q=" + Utilities.UrlEncode (query);
 		
 				// download data
-
 				try {
 					// authentication
 					HttpClient client = new HttpClient ();

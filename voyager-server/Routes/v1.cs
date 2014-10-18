@@ -72,7 +72,7 @@ namespace voyagerserver.routes
 			float latitude = float.Parse (req.Parameters ["lat"]);
 
 			// search for data
-			//EBWeatherData searchData = EBService.Weather (longitude, latitude);
+			WMWeatherData searchData = WMService.Weather (longitude, latitude);
 			//List<EventData> data = new List<EventData>();
 		}
 		#endregion
