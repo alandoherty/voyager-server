@@ -3,6 +3,9 @@ using voyagerlib;
 using System.Runtime.Serialization.Json;
 using System.IO;
 using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace voyagerserver
 {
@@ -16,11 +19,14 @@ namespace voyagerserver
 		public static void Search(string query) {
 			DataContractJsonSerializer serializer = new DataContractJsonSerializer (typeof(EBSearchData));
 
-			System.Net.WebClient webclient = new System.Net.WebClient ();
-
 			string str = null;
 			try {
-				str = webclient.DownloadString ("https://www.eventbriteapi.com/v3/events/search/?token=HYNJ37UW2IAHOF27XLSL?q=" + Utilities.UrlEncode(query));
+				HttpClient client = new HttpClient ();
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("Bearer", "HYNJ37UW2IAHOF27XLSL");
+				Task<string> task = client.GetStringAsync ("https://www.eventbriteapi.com/v3/events/search/?token=?q=" + Utilities.UrlEncode (query));
+
+				task.Wait ();
+				str = task.Result;
 			}
 			catch(Exception ex) {
 				Utilities.Error (ex.Message + "\n" + ex.StackTrace);
