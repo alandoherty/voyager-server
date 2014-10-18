@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace voyagerserver
 {
-	public struct HackathonData
+	public struct EventData
 	{
 		#region Fields
 		[DataMember]
@@ -18,11 +18,11 @@ namespace voyagerserver
 		[DataMember]
 		public string Date;
 
-		//[DataMember]
-		//public LocationData Location;
+		[DataMember]
+		public LocationData Location;
 
 		[DataMember]
-		public string Location;
+		public string LocationString;
 		#endregion
 	}
 }

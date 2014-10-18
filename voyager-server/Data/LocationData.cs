@@ -10,6 +10,12 @@ namespace voyagerserver
 
 		[DataMember]
 		public float Longitude;
+
+		[DataMember]
+		public string City;
+
+		[DataMember]
+		public string Country;
 	}
 }
 

@@ -7,28 +7,28 @@ namespace voyagerserver
 	{
 		#pragma warning disable 0169
 		[DataMember]
-		EBText description;
+		public EBText description;
 
 		[DataMember]
-		EBImage logo;
+		public EBImage logo;
 
 		[DataMember]
-		string resource_uri;
+		public string resource_uri;
 
 		[DataMember]
-		long id;
+		public string id;
 
 		[DataMember]
-		string name;
+		public string name;
 
 		[DataMember]
-		string url;
+		public string url;
 
 		[DataMember]
-		int num_past_events;
+		public string num_past_events;
 
 		[DataMember]
-		int num_future_events;
+		public string num_future_events;
 		#pragma warning restore 0169	
 	}
 }

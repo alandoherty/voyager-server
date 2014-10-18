@@ -7,16 +7,16 @@ namespace voyagerserver
 	{
 		#pragma warning disable 0169
 		[DataMember]
-		string resource_uri;
+		public string resource_uri;
 
 		[DataMember]
-		int id;
+		public string id; // int
 
 		[DataMember]
-		string name;
+		public string name;
 
 		[DataMember]
-		string short_name;
+		public string short_name;
 		#pragma warning restore 0169
 	}
 }

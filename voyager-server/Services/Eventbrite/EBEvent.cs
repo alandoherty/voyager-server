@@ -7,82 +7,82 @@ namespace voyagerserver
 	{
 		#pragma warning disable 0169
 		[DataMember]
-		string resource_uri;
+		public string resource_uri;
 
 		[DataMember]
-		EBText name;
+		public EBText name;
 
 		[DataMember]
-		EBText description;
+		public EBText description;
 
 		[DataMember]
-		EBImage logo;
+		public EBImage logo;
 
 		[DataMember]
-		long id;
+		public string id;
 
 		[DataMember]
-		string url;
+		public string url;
 
 		[DataMember]
-		string logo_url;
+		public string logo_url;
 
 		[DataMember]
-		EBDateTime start;
+		public EBDateTime start;
 
 		[DataMember]
-		EBDateTime end;
+		public EBDateTime end;
 
 		[DataMember]
-		string created;
+		public string created;
 
 		[DataMember]
-		string changed;
+		public string changed;
 
 		[DataMember]
-		int capacity;
+		public string capacity; // int
 
 		[DataMember]
-		string status;
+		public string status;
 
 		[DataMember]
-		string currency;
+		public string currency;
 
 		[DataMember]
-		string online_event;
+		public string online_event;
 
 		[DataMember]
-		long organizer_id;
+		public string organizer_id;
 
 		[DataMember]
-		string venue_id;
+		public string venue_id;
 
 		[DataMember]
-		int category_id;
+		public string category_id; // int
 
 		[DataMember]
-		int subcategory_id;
+		public string subcategory_id; // int
 
 		[DataMember]
-		int format_id;
+		public string format_id; // int
 
 		[DataMember]
-		EBOrganizer organizer;
+		public EBOrganizer organizer;
 
 		[DataMember]
-		EBVenue venue;
+		public EBVenue venue;
 
 		[DataMember]
-		EBCategory category;
+		public EBCategory category;
 
 		[DataMember]
-		EBCategory subcategory;
+		public EBCategory subcategory;
 
 		[DataMember]
-		EBFormat format;
+		public EBFormat format;
 
 		[DataMember]
-		EBTicketClass[] ticket_classes;
+		public EBTicketClass[] ticket_classes;
 		#pragma warning restore 0169
 	}
 }

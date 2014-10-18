@@ -7,31 +7,31 @@ namespace voyagerserver
 	{
 		#pragma warning disable 0169
 		[DataMember]
-		string resource_uri;
+		public string resource_uri;
 
 		[DataMember]
-		long id;
+		public string id;
 
 		[DataMember]
-		string name;
+		public string name;
 
 		[DataMember]
-		string description;
+		public string description;
 
 		[DataMember]
-		bool donation;
+		public bool donation;
 
 		[DataMember]
-		bool free;
+		public bool free;
 
 		[DataMember]
-		int minimum_quantity;
+		public string minimum_quantity;
 
 		[DataMember]
-		int maximum_quantity;
+		public string maximum_quantity;
 
 		[DataMember]
-		long event_id;
+		public long event_id;
 		#pragma warning restore 0169
 	}
 }

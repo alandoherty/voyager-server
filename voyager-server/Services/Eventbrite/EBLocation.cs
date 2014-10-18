@@ -7,28 +7,28 @@ namespace voyagerserver
 	{
 		#pragma warning disable 0169
 		[DataMember]
-		string address_1;
+		public string address_1;
 
 		[DataMember]
-		string address_2;
+		public string address_2;
 
 		[DataMember]
-		string city;
+		public string city;
 
 		[DataMember]
-		string region;
+		public string region;
 
 		[DataMember]
-		string postal_code;
+		public string postal_code;
 
 		[DataMember]
-		string country;
+		public string country;
 
 		[DataMember]
-		double latitude;
+		public float latitude;
 
 		[DataMember]
-		double longitude;
+		public float longitude;
 		#pragma warning restore 0169
 	}
 }

@@ -7,7 +7,7 @@ namespace voyagerserver
 	{
 		#pragma warning disable 0169
 		[DataMember]
-		public int id;
+		public string id;
 
 		[DataMember]
 		public string url;

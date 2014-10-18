@@ -182,7 +182,7 @@ namespace voyagerlib
 		/// </summary>
 		/// <param name="code">Code.</param>
 		public void Send(HttpStatusCode code) {
-			SendGeneric (Encoding.UTF8.GetBytes (Utilities.ContentTypeNames [HttpContentType.HTML]), new Action(delegate() {
+			SendGeneric (Encoding.UTF8.GetBytes (Utilities.StatusCodeNames [code]), new Action(delegate() {
 				ContentType = HttpContentType.HTML;
 			}));
 		}
