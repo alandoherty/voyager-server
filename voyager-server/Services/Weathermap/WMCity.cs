@@ -5,6 +5,7 @@ namespace voyagerserver
 {
 	public struct WMCity
 	{
+		#pragma warning disable 0169
 		[DataMember]
 		public long id;
 
@@ -16,6 +17,7 @@ namespace voyagerserver
 
 		[DataMember]
 		public long population;
+		#pragma warning restore 0169
 	}
 }
 

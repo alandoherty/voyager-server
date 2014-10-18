@@ -3,20 +3,22 @@ using System.Runtime.Serialization;
 
 namespace voyagerserver
 {
-	public struct WMClimate
+	public struct ForecastData
 	{
 		#pragma warning disable 0169
+		#region Fields
 		[DataMember]
-		public int id;
+		public byte Day;
 
 		[DataMember]
-		public string main;
+		public TemperatureData Temperature;
 
 		[DataMember]
-		public string description;
+		public string WeatherString;
 
 		[DataMember]
-		public string icon;
+		public string WeatherDescription;
+		#endregion
 		#pragma warning restore 0169
 	}
 }

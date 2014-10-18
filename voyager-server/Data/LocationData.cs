@@ -5,6 +5,7 @@ namespace voyagerserver
 {
 	public struct LocationData
 	{
+		#pragma warning disable 0169
 		[DataMember]
 		public float Latitude;
 
@@ -16,6 +17,7 @@ namespace voyagerserver
 
 		[DataMember]
 		public string Country;
+		#pragma warning restore 0169
 	}
 }
 

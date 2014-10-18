@@ -3,27 +3,27 @@ using System.Runtime.Serialization;
 
 namespace voyagerserver
 {
-	public struct EventData
+	public struct TemperatureData
 	{
 		#pragma warning disable 0169
 		#region Fields
 		[DataMember]
-		public string Name;
+		public float Day;
 
 		[DataMember]
-		public string Organizer;
+		public float Minimum;
 
 		[DataMember]
-		public string Image;
+		public float Maximum;
 
 		[DataMember]
-		public string Date;
+		public float Midnight;
 
 		[DataMember]
-		public LocationData Location;
+		public float Evening;
 
 		[DataMember]
-		public string LocationString;
+		public float Morning;
 		#endregion
 		#pragma warning restore 0169
 	}

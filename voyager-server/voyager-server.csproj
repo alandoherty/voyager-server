@@ -70,6 +70,12 @@
     <Compile Include="Services\Weathermap\WMReport.cs" />
     <Compile Include="Services\Weathermap\WMTemperature.cs" />
     <Compile Include="Services\Weathermap\WMClimate.cs" />
+    <Compile Include="Data\ForecastData.cs" />
+    <Compile Include="Data\TemperatureData.cs" />
+    <Compile Include="Services\Transport\TRService.cs" />
+    <Compile Include="Services\Transport\TRNearbyData.cs" />
+    <Compile Include="Services\Transport\TRStation.cs" />
+    <Compile Include="Data\StationData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -85,6 +91,7 @@
     <Folder Include="Services\Eventbrite\" />
     <Folder Include="Services\Common\" />
     <Folder Include="Services\Weathermap\" />
+    <Folder Include="Services\Transport\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -35,8 +35,6 @@ namespace voyagerserver
 			else
 				Utilities.Info("Created cache file with 0 stored keywords");
 
-			WMWeatherData data = WMService.Weather (-0.076f, 51.504f);
-
 			// create server
 			Server server = new Server (Assembly.GetExecutingAssembly(), 8080);
 

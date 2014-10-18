@@ -5,11 +5,12 @@ namespace voyagerserver
 {
 	public struct WMWeatherData
 	{
+		#pragma warning disable 0169
 		[DataMember]
 		public int cod;
 
 		[DataMember]
-		public float message;
+		public string message;
 
 		[DataMember]
 		public WMCity city;
@@ -19,6 +20,7 @@ namespace voyagerserver
 
 		[DataMember]
 		public WMReport[] list;
+		#pragma warning restore 0169
 	}
 }
 

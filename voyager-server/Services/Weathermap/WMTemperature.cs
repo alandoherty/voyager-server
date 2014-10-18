@@ -5,6 +5,7 @@ namespace voyagerserver
 {
 	public struct WMTemperature
 	{
+		#pragma warning disable 0169
 		[DataMember]
 		public float day;
 
@@ -22,6 +23,7 @@ namespace voyagerserver
 
 		[DataMember]
 		public float morn;
+		#pragma warning restore 0169
 	}
 
 }

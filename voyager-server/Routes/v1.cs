@@ -13,8 +13,8 @@ namespace voyagerserver.routes
 		/// </summary>
 		/// <param name="req">Request.</param>
 		/// <param name="res">Response.</param>
-		[Route(HttpMethod.GET, "/v1/search")]
-		public static void Search(Request req, Response res) {
+		[Route(HttpMethod.GET, "/v1/events/search")]
+		public static void SearchEvents(Request req, Response res) {
 			// check exists
 			if (!req.Parameters.ContainsKey ("searchText")) {
 				Utilities.Error ("Invalid search request, missing parameter to search (searchText)");
@@ -58,8 +58,8 @@ namespace voyagerserver.routes
 		/// </summary>
 		/// <param name="req">Req.</param>
 		/// <param name="res">Res.</param>
-		[Route(HttpMethod.GET, "/v1/weather")]
-		public static void Weather(Request req, Response res) {
+		[Route(HttpMethod.GET, "/v1/weather/get")]
+		public static void GetWeather(Request req, Response res) {
 			// check exists
 			if (!req.Parameters.ContainsKey ("lon") || !req.Parameters.ContainsKey ("lat")) {
 				Utilities.Error ("Invalid weather request, missing parameter to lookup (lon/lat)");
@@ -72,8 +72,76 @@ namespace voyagerserver.routes
 			float latitude = float.Parse (req.Parameters ["lat"]);
 
 			// search for data
-			WMWeatherData searchData = WMService.Weather (longitude, latitude);
-			//List<EventData> data = new List<EventData>();
+			WMWeatherData weatherData = WMService.Weather (longitude, latitude);
+			List<ForecastData> data = new List<ForecastData>();
+
+			// day
+			byte day = 1;
+
+			// respond
+			foreach (WMReport reportData in weatherData.list) {
+				data.Add(new ForecastData() {
+					Day = day,
+					Temperature = new TemperatureData() {
+						Day = reportData.temp.day,
+						Midnight = reportData.temp.night,
+						Evening = reportData.temp.eve,
+						Morning = reportData.temp.morn,
+						Minimum = reportData.temp.min,
+						Maximum = reportData.temp.max
+					},
+					WeatherString = reportData.weather[0].main,
+					WeatherDescription = reportData.weather[0].description
+				});
+
+				// increment day
+				day++;
+			}
+
+			// write
+			res.Write (data.ToArray ());
+
+			// send response
+			res.Send ();
+		}
+
+		/// <summary>
+		/// Finds nearby stations.
+		/// </summary>
+		/// <param name="req">Request.</param>
+		/// <param name="res">Response.</param>
+		[Route(HttpMethod.GET, "/v1/trains/nearby")]
+		public static void NearbyStations(Request req, Response res) {
+			// check exists
+			if (!req.Parameters.ContainsKey ("lon") || !req.Parameters.ContainsKey ("lat")) {
+				Utilities.Error ("Invalid weather request, missing parameter to lookup (lon/lat)");
+				res.Send (HttpStatusCode.BadRequest);
+				return;
+			}
+
+			// parameters
+			float longitude = float.Parse(req.Parameters ["lon"]);
+			float latitude = float.Parse (req.Parameters ["lat"]);
+
+			// search for data
+			TRNearbyData nearbyData = TRService.Nearby (longitude, latitude);
+			List<StationData> data = new List<StationData>();
+
+			// respond
+			foreach (TRStation stationData in nearbyData.stations) {
+				data.Add(new StationData() {
+					StationCode = stationData.station_code,
+					Name = stationData.name,
+					Mode = stationData.mode,
+					Distance = stationData.distance
+				});
+			}
+
+			// write
+			res.Write (data.ToArray ());
+
+			// send response
+			res.Send ();
 		}
 		#endregion
 	}

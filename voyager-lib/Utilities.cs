@@ -177,6 +177,8 @@ namespace voyagerlib
 
 						// go back to state zero
 						parseState = 0;
+
+						continue;
 					}
 
 					value = value + c;
