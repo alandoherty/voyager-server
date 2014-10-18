@@ -26,8 +26,7 @@ namespace voyagerlib
 		/// <summary>
 		/// The names assigned to each status code
 		/// </summary>
-		public static Dictionary<HttpStatusCode,string> StatusCodeNames = new Dictionary<HttpStatusCode, string>()
-		{
+		public static Dictionary<HttpStatusCode,string> StatusCodeNames = new Dictionary<HttpStatusCode, string>() {
 			{ HttpStatusCode.Continue, "Continue" },
 			{ HttpStatusCode.OK, "OK" },
 			{ HttpStatusCode.Created, "Created" },
@@ -41,6 +40,16 @@ namespace voyagerlib
 			{ HttpStatusCode.PaymentRequired, "Payment Required" },
 			{ HttpStatusCode.Forbidden, "Forbidden" },
 			{ HttpStatusCode.NotFound, "Not Found" }
+		};
+
+		/// <summary>
+		/// The names assigned to each content type;
+		/// </summary>
+		public static Dictionary<HttpContentType,string> ContentTypeNames = new Dictionary<HttpContentType, string> () {
+			{ HttpContentType.CSS, "text/css" },
+			{ HttpContentType.JSON, "application/json" },
+			{ HttpContentType.Javascript, "text/javascript" },
+			{ HttpContentType.HTML, "text/html" }
 		};
 		#endregion
 

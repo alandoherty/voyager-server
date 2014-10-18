@@ -14,7 +14,8 @@ namespace voyagerlib
 
 		private Dictionary<string, HttpHeader> _headers = new Dictionary<string, HttpHeader>();
 
-		private HttpStatusCode _statusCode;
+		private HttpContentType _contentType = HttpContentType.HTML;
+		private HttpStatusCode _statusCode = HttpStatusCode.OK;
 		private MemoryStream _bodyStream = null;
 		#endregion
 
@@ -76,20 +77,46 @@ namespace voyagerlib
 		}
 
 		/// <summary>
-		/// Send the data built up in the body.
+		/// Send a generic reply to the client.
 		/// </summary>
-		public void Send() {
-			// build
-			byte[] statusLine = Utilities.BuildStatusLine ();
+		/// <param name="data">Data.</param>
+		/// <param name="headerManipulation">Header manipulation.</param>
+		private void SendGeneric(byte[] data, Action headerManipulation) {
+			// modify headers
+			_headers ["Content-Length"] = new HttpHeader("Content-Length", data.Length.ToString());
+			_headers ["Content-Type"] = new HttpHeader ("Content-Type", Utilities.ContentTypeNames [_contentType]);
+
+			// custom headers
+			if (headerManipulation != null)
+				headerManipulation ();
+
+			// build status line
+			byte[] statusLine = Utilities.BuildStatusLine (_statusCode);
 
 			// build headers
 			byte[] headers = Utilities.BuildHeaders (_headers);
 
+			// write status line and headers
 			_stream.Write (statusLine, 0, statusLine.Length);
 			_stream.Write (headers, 0, headers.Length);
 
-			byte[] hello = Encoding.UTF8.GetBytes ("[\n{\n\"name\" : \"The Fadathon\",\n\"description\" : \"We sell fad things here\",\n\"image\" : \"http://jamiehoyle.com/img.png\",\n\"rating\" : 5\n},\n{\n\"name\" : \"The Conferencethon\",\n\"description\" : \"We do conferences\",\n\"image\" : \"http://jamiehoyle.com/img2.png\",\n\"rating\" : 4\n},\n{\n\"name\" : \"The Jamieathon\",\n\"description\" : \"We do anjuli\",\n\"image\" : \"http://jamiehoyle.com/img3.png\",\n\"rating\" : 1\n}\n]");
-			_stream.Write (hello, 0, hello.Length);
+			// write body
+			_stream.Write (data, 0, data.Length);
+		}
+
+		/// <summary>
+		/// Send the data built up in the body.
+		/// </summary>
+		public void Send() {
+			SendGeneric (_bodyStream.ToArray (), null);
+		}
+
+		/// <summary>
+		/// Send a file to the client.
+		/// </summary>
+		/// <param name="filename">Filename.</param>
+		public void Send(string filename) {
+			SendGeneric (File.ReadAllBytes (filename), null);
 		}
 
 		/// <summary>
@@ -97,7 +124,9 @@ namespace voyagerlib
 		/// </summary>
 		/// <param name="code">Code.</param>
 		public void Send(HttpStatusCode code) {
-
+			SendGeneric (Encoding.UTF8.GetBytes (Utilities.ContentTypeNames [HttpContentType.HTML]), new Action(delegate() {
+				_headers["Content-Type"] = new HttpHeader("Content-Type", Utilities.ContentTypeNames [HttpContentType.HTML]);
+			}));
 		}
 		#endregion
 
@@ -108,6 +137,7 @@ namespace voyagerlib
 		/// <param name="stream">Stream.</param>
 		public Response (Stream stream)
 		{
+			_bodyStream = new MemoryStream ();
 			_stream = stream;
 		}
 		#endregion

@@ -17,14 +17,15 @@ namespace voyagerserver.routes
 			// check exists
 			if (!req.Parameters.ContainsKey ("searchText")) {
 				Utilities.Error ("Invalid request, missing parameter to search");
+				res.Send (HttpStatusCode.BadRequest);
+				return;
 			}
 
 			// parameters
 			string searchText = req.Parameters ["searchText"];
 
-			// search te
-			Console.WriteLine ("Jamie just searched for " + searchText);
-
+			res.Write ("\"[\\n{\\n\\\"name\\\" : \\\"The Fadathon\\\",\\n\\\"description\\\" : \\\"We sell fad things here\\\",\\n\\\"image\\\" : \\\"http://jamiehoyle.com/img.png\\\",\\n\\\"rating\\\" : 5\\n},\\n{\\n\\\"name\\\" : \\\"The Conferencethon\\\",\\n\\\"description\\\" : \\\"We do conferences\\\",\\n\\\"image\\\" : \\\"http://jamiehoyle.com/img2.png\\\",\\n\\\"rating\\\" : 4\\n},\\n{\\n\\\"name\\\" : \\\"The Jamieathon\\\",\\n\\\"description\\\" : \\\"We do anjuli\\\",\\n\\\"image\\\" : \\\"http://jamiehoyle.com/img3.png\\\",\\n\\\"rating\\\" : 1\\n}\\n]\"");
+			
 			// send response
 			res.Send ();
 		}
