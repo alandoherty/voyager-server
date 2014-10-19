@@ -79,6 +79,15 @@
     <Compile Include="Data\EmptyData.cs" />
     <Compile Include="Services\Expedia\EXService.cs" />
     <Compile Include="Services\Expedia\EXSearchData.cs" />
+    <Compile Include="Services\Brfares\BRService.cs" />
+    <Compile Include="Services\Brfares\BRFare.cs" />
+    <Compile Include="Services\Brfares\BRFareSetter.cs" />
+    <Compile Include="Services\Brfares\BRFareData.cs" />
+    <Compile Include="Services\Brfares\BRTicket.cs" />
+    <Compile Include="Services\Brfares\BRClass.cs" />
+    <Compile Include="Services\Brfares\BRPrice.cs" />
+    <Compile Include="Services\Brfares\BRPriceStatus.cs" />
+    <Compile Include="Data\FareData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -96,6 +105,7 @@
     <Folder Include="Services\Weathermap\" />
     <Folder Include="Services\Transport\" />
     <Folder Include="Services\Expedia\" />
+    <Folder Include="Services\Brfares\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

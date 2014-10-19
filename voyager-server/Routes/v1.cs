@@ -120,6 +120,15 @@ namespace voyagerserver.routes
 		}
 
 		/// <summary>
+		/// Finds the nearest hotel.
+		/// </summary>
+		/// <param name="req">Req.</param>
+		/// <param name="res">Res.</param>
+		public static void NearestHotel(Request req, Response res) {
+
+		}
+
+		/// <summary>
 		/// Finds nearest stations.
 		/// </summary>
 		/// <param name="req">Request.</param>
@@ -213,6 +222,61 @@ namespace voyagerserver.routes
 
 			// write
 			res.Write (data.ToArray ());
+
+			// send response
+			res.Send ();
+		}
+
+		/// <summary>
+		/// Finds fares for train routes.
+		/// </summary>
+		/// <param name="req">Request.</param>
+		/// <param name="res">Response.</param>
+		[Route(HttpMethod.GET, "/v1/trains/fares")]
+		public static void Fares(Request req, Response res) {
+			// authorization
+			if (!req.Authorized) {
+				Utilities.Error ("Invalid authentication, denied /v1/trains/nearby");
+				res.Send (HttpStatusCode.Unauthorized);
+				return;
+			}
+
+			// check exists
+			if (!req.Parameters.ContainsKey ("from") || !req.Parameters.ContainsKey ("to")) {
+				Utilities.Error ("Invalid fare request, missing parameter to lookup (from/to)");
+				res.Send (HttpStatusCode.BadRequest);
+				return;
+			}
+
+			// parameters
+			string from = req.Parameters ["from"];
+			string to = req.Parameters ["to"];
+
+			// search for data
+			BRFareData faresData = BRService.Fares (from, to);
+
+			BRFare[] fares = new BRFare[faresData.fares.Length];
+			faresData.fares.CopyTo (fares, 0);
+			Array.Reverse (fares);
+
+			// respond
+			foreach (BRFare fareData in fares) {
+				// build fare
+				FareData fare = new FareData () {
+					Class = fareData.ticket.tclass.desc,
+					ChildCost = (fareData.child != null) ? (fareData.child.fare / 100) : 0,
+					AdultCost = (fareData.adult != null) ? (fareData.adult.fare / 100) : 0,
+				};
+
+				// cheapest 1st class
+				if (fare.ChildCost != 0 && fare.AdultCost != 0 && fare.Class == "1ST") {
+					// write
+					res.Write (fare);
+					
+					// return
+					break;
+				}
+			}
 
 			// send response
 			res.Send ();
