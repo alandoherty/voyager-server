@@ -18,6 +18,12 @@ namespace voyagerserver
 
 		[DataMember]
 		public long Distance;
+
+		[DataMember]
+		public float Longitude;
+
+		[DataMember]
+		public float Latitude;
 		#endregion
 		#pragma warning restore 0169
 	}

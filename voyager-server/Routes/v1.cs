@@ -106,7 +106,7 @@ namespace voyagerserver.routes
 		}
 
 		/// <summary>
-		/// Finds nearby stations.
+		/// Finds nearest stations.
 		/// </summary>
 		/// <param name="req">Request.</param>
 		/// <param name="res">Response.</param>
@@ -120,8 +120,11 @@ namespace voyagerserver.routes
 			}
 
 			// parameters
-			float longitude = float.Parse(req.Parameters ["lon"]);
-			float latitude = float.Parse (req.Parameters ["lat"]);
+			//float longitude = float.Parse(req.Parameters ["lon"]);
+			//float latitude = float.Parse (req.Parameters ["lat"]);
+
+			float longitude = -2.2300f;
+			float latitude = 53.4770f;
 
 			// search for data
 			TRNearbyData nearbyData = TRService.Nearby (longitude, latitude);
@@ -137,9 +140,51 @@ namespace voyagerserver.routes
 					StationCode = stationData.station_code,
 					Name = stationData.name,
 					Mode = stationData.mode,
+					Longitude = stationData.longitude,
+					Latitude = stationData.latitude,
+					//Distance = stationData.distance
+					Distance = 33243
+				});
+			}
+
+			// send response
+			res.Send ();
+		}
+
+		/// <summary>
+		/// Finds nearby stations.
+		/// </summary>
+		/// <param name="req">Request.</param>
+		/// <param name="res">Response.</param>
+		[Route(HttpMethod.GET, "/v1/trains/nearby")]
+		public static void NearbyStations(Request req, Response res) {
+			// check exists
+			if (!req.Parameters.ContainsKey ("lon") || !req.Parameters.ContainsKey ("lat")) {
+				Utilities.Error ("Invalid weather request, missing parameter to lookup (lon/lat)");
+				res.Send (HttpStatusCode.BadRequest);
+				return;
+			}
+
+			// parameters
+			float longitude = float.Parse(req.Parameters ["lon"]);
+			float latitude = float.Parse (req.Parameters ["lat"]);
+
+			// search for data
+			TRNearbyData nearbyData = TRService.Nearby (longitude, latitude);
+			List<StationData> data = new List<StationData>();
+
+			// respond
+			foreach (TRStation stationData in nearbyData.stations) {
+				data.Add(new StationData() {
+					StationCode = stationData.station_code,
+					Name = stationData.name,
+					Mode = stationData.mode,
 					Distance = stationData.distance
 				});
 			}
+
+			// write
+			res.Write (data.ToArray ());
 
 			// send response
 			res.Send ();

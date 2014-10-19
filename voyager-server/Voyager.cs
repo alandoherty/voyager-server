@@ -30,8 +30,8 @@ namespace voyagerserver
 			Cache = new Cache (CacheFile);
 
 			// rawtenstall
-			// lon = -53.6990
-			// lat = 2.2910
+			// lon = 2.2910
+			// lat = -53.6990
 
 			// announce
 			if (cacheExists)
