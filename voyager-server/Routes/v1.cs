@@ -49,7 +49,8 @@ namespace voyagerserver.routes
 						PostalCode = eventData.venue.location.postal_code,
 						Address = eventData.venue.location.address_1,
 						City = eventData.venue.location.city,
-						Country = eventData.venue.location.country
+						Country = eventData.venue.location.country,
+						AddressString = eventData.venue.location.address_1 + "\n" + eventData.venue.location.postal_code + "\n" + eventData.venue.location.city
 					},
 					LocationString = eventData.venue.location.city + ", " + eventData.venue.location.country
 				});
