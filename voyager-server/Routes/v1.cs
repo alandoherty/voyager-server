@@ -54,7 +54,8 @@ namespace voyagerserver.routes
 					},
 					LocationString = eventData.venue.location.city + ", " + eventData.venue.location.country,
 					Contact = new ContactData() {
-
+						FacebookHandle = "TechCrunch",
+						TwitterHandle = "TechCrunch"
 					}
 				});
 			}
