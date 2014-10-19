@@ -12,6 +12,8 @@ namespace voyagerlib
 		private Assembly _assembly; 
 		private HttpServer _http;
 
+		private Dictionary<string,Session> _sessions = new Dictionary<string, Session>();
+
 		private List<Route> _routes;
 		#endregion
 
@@ -46,6 +48,16 @@ namespace voyagerlib
 			}
 			set {
 				_routes = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets the sessions.
+		/// </summary>
+		/// <value>The sessions.</value>
+		public Dictionary<string, Session> Sessions {
+			get {
+				return _sessions;
 			}
 		}
 		#endregion
@@ -95,9 +107,31 @@ namespace voyagerlib
 			// log
 			Utilities.Log (e.Request.Method, e.Request.Path);
 
+			// handle sessions
+			if (e.Request.Path == "/authorize") {
+				// generate session
+				Session session = new Session ();
+				session.Data.Add ("hello", "this is some persistant data");
+				_sessions.Add (session.Id, session);
+
+				// add session
+				e.Request.Session = session;
+
+				// respond
+				e.Response.Write (session.Id);
+				e.Response.Send ();
+				return;
+			}
+
 			// do route stuff
 			foreach (Route route in _routes) {
 				if (route.Path == e.Request.Path) {
+					// authorization
+					if (e.Request.Parameters.ContainsKey("session"))
+						if (_sessions.ContainsKey(e.Request.Parameters["session"]))
+							e.Request.Session = _sessions[e.Request.Parameters["session"]];
+
+					// invoke
 					route.Function.Invoke (null, new object[]{ e.Request, e.Response });
 				}
 			}

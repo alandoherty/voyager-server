@@ -50,6 +50,7 @@
     <Compile Include="Response.cs" />
     <Compile Include="Events\RequestedEvent.cs" />
     <Compile Include="Http\HttpContentType.cs" />
+    <Compile Include="Session.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

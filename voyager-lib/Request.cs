@@ -9,6 +9,7 @@ namespace voyagerlib
 		#region Fields
 		private Dictionary<string, HttpHeader> _headers;
 		private HttpRequestLine _requestLine;
+		private Session _session;
 		#endregion
 
 		#region Properties
@@ -83,6 +84,32 @@ namespace voyagerlib
 		public string Body {
 			get {
 				return "";
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the session.
+		/// </summary>
+		/// <value>The session.</value>
+		public Session Session {
+			get {
+				return _session;
+			}
+			set {
+				if (_session == null)
+					_session = value;
+				else
+					throw new NotSupportedException ("The session cannot be changed once set");
+			}
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="voyagerlib.Request"/> is authorized.
+		/// </summary>
+		/// <value><c>true</c> if authorized; otherwise, <c>false</c>.</value>
+		public bool Authorized {
+			get {
+				return _session != null;
 			}
 		}
 		#endregion
