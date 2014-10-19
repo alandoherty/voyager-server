@@ -3,27 +3,30 @@ using System.Runtime.Serialization;
 
 namespace voyagerserver
 {
-	public class LocationData : EmptyData
+	public class HotelData : EmptyData
 	{
 		#pragma warning disable 0169
 		#region Fields
 		[DataMember]
-		public float Latitude;
+		public string Name;
 
 		[DataMember]
-		public float Longitude;
+		public string Type;
 
 		[DataMember]
-		public string City;
+		public bool Flexible;
 
 		[DataMember]
-		public string PostalCode;
+		public string Telephone;
 
 		[DataMember]
-		public string Address;
+		public string Email;
 
 		[DataMember]
-		public string Country;
+		public string Image;
+
+		[DataMember]
+		public float CostPerNight;
 		#endregion
 		#pragma warning restore 0169
 	}

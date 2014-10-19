@@ -46,6 +46,8 @@ namespace voyagerserver.routes
 					Location = new LocationData() {
 						Latitude = eventData.venue.location.latitude,
 						Longitude = eventData.venue.location.longitude,
+						PostalCode = eventData.venue.location.postal_code,
+						Address = eventData.venue.location.address_1,
 						City = eventData.venue.location.city,
 						Country = eventData.venue.location.country
 					},
@@ -122,10 +124,36 @@ namespace voyagerserver.routes
 		/// <summary>
 		/// Finds the nearest hotel.
 		/// </summary>
-		/// <param name="req">Req.</param>
-		/// <param name="res">Res.</param>
+		/// <param name="req">Request.</param>
+		/// <param name="res">Response.</param>
+		[Route(HttpMethod.GET, "/v1/hotels/nearest")]
 		public static void NearestHotel(Request req, Response res) {
+			// authorization
+			if (!req.Authorized) {
+				Utilities.Error ("Invalid authentication, denied /v1/hotels/nearest");
+				res.Send (HttpStatusCode.Unauthorized);
+				return;
+			}
 
+			// check exists
+			if (!req.Parameters.ContainsKey ("lon") || !req.Parameters.ContainsKey ("lat")) {
+				Utilities.Error ("Invalid hotel request, missing parameter to lookup (lon/lat)");
+				res.Send (HttpStatusCode.BadRequest);
+				return;
+			}
+
+			res.Write (new HotelData() {
+				Name = "London Central Tower Bridge Hotel",
+				Type = "Double Room",
+				Flexible = true,
+				Telephone = "0871 984 6388",
+				Email = "",
+				Image = "http://www.travelodge.co.uk/sites/default/files/styles/hotel_hero_large/public/Tower-Bridge-Exterior_MG_5523.jpg?itok=-FJ-uj02",
+				CostPerNight = 72
+			});	
+
+			// send response
+			res.Send ();
 		}
 
 		/// <summary>

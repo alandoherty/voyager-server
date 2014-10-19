@@ -109,9 +109,16 @@ namespace voyagerlib
 
 			// handle sessions
 			if (e.Request.Path == "/authorize") {
+				// require username
+				if (!e.Request.Parameters.ContainsKey ("user")) {
+					Utilities.Error ("Invalid authorization, missing user parameter (user)");
+					e.Response.Send (HttpStatusCode.BadRequest);
+					return;
+				}
+
 				// generate session
 				Session session = new Session ();
-				session.Data.Add ("hello", "this is some persistant data");
+				session.Data ["user"] = e.Request.Parameters ["user"];
 				_sessions.Add (session.Id, session);
 
 				// add session

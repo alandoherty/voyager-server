@@ -88,6 +88,8 @@
     <Compile Include="Services\Brfares\BRPrice.cs" />
     <Compile Include="Services\Brfares\BRPriceStatus.cs" />
     <Compile Include="Data\FareData.cs" />
+    <Compile Include="Data\HotelData.cs" />
+    <Compile Include="Services\Skyscanner\SCService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -106,6 +108,7 @@
     <Folder Include="Services\Transport\" />
     <Folder Include="Services\Expedia\" />
     <Folder Include="Services\Brfares\" />
+    <Folder Include="Services\Skyscanner\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
