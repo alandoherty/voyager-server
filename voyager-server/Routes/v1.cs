@@ -110,8 +110,8 @@ namespace voyagerserver.routes
 		/// </summary>
 		/// <param name="req">Request.</param>
 		/// <param name="res">Response.</param>
-		[Route(HttpMethod.GET, "/v1/trains/nearby")]
-		public static void NearbyStations(Request req, Response res) {
+		[Route(HttpMethod.GET, "/v1/trains/nearest")]
+		public static void NearestStations(Request req, Response res) {
 			// check exists
 			if (!req.Parameters.ContainsKey ("lon") || !req.Parameters.ContainsKey ("lat")) {
 				Utilities.Error ("Invalid weather request, missing parameter to lookup (lon/lat)");
@@ -125,20 +125,21 @@ namespace voyagerserver.routes
 
 			// search for data
 			TRNearbyData nearbyData = TRService.Nearby (longitude, latitude);
-			List<StationData> data = new List<StationData>();
 
-			// respond
-			foreach (TRStation stationData in nearbyData.stations) {
-				data.Add(new StationData() {
+			if (nearbyData.stations.Length == 0) {
+				// no results
+				res.Write (new EmptyData());
+			} else {
+				// first result
+				TRStation stationData = nearbyData.stations [0];
+
+				res.Write (new StationData() {
 					StationCode = stationData.station_code,
 					Name = stationData.name,
 					Mode = stationData.mode,
 					Distance = stationData.distance
 				});
 			}
-
-			// write
-			res.Write (data.ToArray ());
 
 			// send response
 			res.Send ();

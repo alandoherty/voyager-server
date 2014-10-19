@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace voyagerserver
 {
-	public struct LocationData
+	public class LocationData : EmptyData
 	{
 		#pragma warning disable 0169
 		[DataMember]

@@ -76,6 +76,7 @@
     <Compile Include="Services\Transport\TRNearbyData.cs" />
     <Compile Include="Services\Transport\TRStation.cs" />
     <Compile Include="Data\StationData.cs" />
+    <Compile Include="Data\EmptyData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

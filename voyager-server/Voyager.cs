@@ -29,6 +29,10 @@ namespace voyagerserver
 			// load cache
 			Cache = new Cache (CacheFile);
 
+			// rawtenstall
+			// lon = -53.6990
+			// lat = 2.2910
+
 			// announce
 			if (cacheExists)
 				Utilities.Info("Opened cache file with " + Cache.Count + " stored keywords");

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace voyagerserver
 {
-	public struct TemperatureData
+	public class TemperatureData : EmptyData
 	{
 		#pragma warning disable 0169
 		#region Fields
