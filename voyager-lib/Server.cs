@@ -3,6 +3,7 @@ using voyagerlib.http;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace voyagerlib
 {
@@ -138,8 +139,16 @@ namespace voyagerlib
 						if (_sessions.ContainsKey(e.Request.Parameters["session"]))
 							e.Request.Session = _sessions[e.Request.Parameters["session"]];
 
-					// invoke
-					route.Function.Invoke (null, new object[]{ e.Request, e.Response });
+					try {
+						// invoke
+						route.Function.Invoke (null, new object[]{ e.Request, e.Response });
+					} catch(Exception ex) {
+						// display crash message
+						Utilities.Error ("Crashed during route " + e.Request.Path + ": " + ex.Message + Environment.NewLine + ex.StackTrace);
+
+						// wait some time
+						Thread.Sleep (5000);
+					}
 				}
 			}
 		}
