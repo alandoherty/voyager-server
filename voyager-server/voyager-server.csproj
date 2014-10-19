@@ -77,6 +77,8 @@
     <Compile Include="Services\Transport\TRStation.cs" />
     <Compile Include="Data\StationData.cs" />
     <Compile Include="Data\EmptyData.cs" />
+    <Compile Include="Services\Expedia\EXService.cs" />
+    <Compile Include="Services\Expedia\EXSearchData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -93,6 +95,7 @@
     <Folder Include="Services\Common\" />
     <Folder Include="Services\Weathermap\" />
     <Folder Include="Services\Transport\" />
+    <Folder Include="Services\Expedia\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
