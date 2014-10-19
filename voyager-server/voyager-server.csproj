@@ -90,6 +90,7 @@
     <Compile Include="Data\FareData.cs" />
     <Compile Include="Data\HotelData.cs" />
     <Compile Include="Services\Skyscanner\SCService.cs" />
+    <Compile Include="Data\ContactData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

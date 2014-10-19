@@ -52,7 +52,10 @@ namespace voyagerserver.routes
 						Country = eventData.venue.location.country,
 						AddressString = eventData.venue.location.address_1 + "\n" + eventData.venue.location.postal_code + "\n" + eventData.venue.location.city
 					},
-					LocationString = eventData.venue.location.city + ", " + eventData.venue.location.country
+					LocationString = eventData.venue.location.city + ", " + eventData.venue.location.country,
+					Contact = new ContactData() {
+
+					}
 				});
 			}
 

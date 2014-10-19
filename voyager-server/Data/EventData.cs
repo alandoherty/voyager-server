@@ -24,6 +24,9 @@ namespace voyagerserver
 
 		[DataMember]
 		public string LocationString;
+
+		[DataMember]
+		public ContactData Contact;
 		#endregion
 		#pragma warning restore 0169
 	}

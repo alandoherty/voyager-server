@@ -75,7 +75,8 @@ namespace voyagerlib.http
 		/// <summary>
 		/// Loop.
 		/// </summary>
-		private void Loop() {
+		private void Loop()
+		{
 			while (true) {
 				// accept client
 				TcpClient client = _listener.AcceptTcpClient ();
