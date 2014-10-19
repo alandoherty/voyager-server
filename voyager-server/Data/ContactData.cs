@@ -17,6 +17,9 @@ namespace voyagerserver
 		public string TwitterHandle;
 
 		[DataMember]
+		public string TwitterHashtag;
+
+		[DataMember]
 		public string FacebookHandle;
 		#endregion
 		#pragma warning restore 0169
